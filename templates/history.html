@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assessment History | HealthAI</title>
+
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+
+        body{
+            font-family:Arial,sans-serif;
+            background:#f5f8fc;
+            color:#172033
+        }
+
+        a{text-decoration:none}
+
+        .nav{
+            height:70px;
+            background:white;
+            border-bottom:1px solid #e5eaf0;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:0 6%
+        }
+
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:21px;
+            font-weight:800;
+            color:#172033
+        }
+
+        .logo-icon{
+            width:38px;
+            height:38px;
+            border-radius:10px;
+            background:linear-gradient(135deg,#2563eb,#06b6d4);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center
+        }
+
+        .nav-links{
+            display:flex;
+            gap:20px
+        }
+
+        .nav-links a{
+            color:#64748b;
+            font-size:14px;
+            font-weight:600
+        }
+
+        .container{
+            width:90%;
+            max-width:1100px;
+            margin:auto;
+            padding:42px 0
+        }
+
+        .top{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px
+        }
+
+        h1{
+            font-size:31px;
+            margin-bottom:7px
+        }
+
+        .subtitle{
+            color:#64748b;
+            font-size:14px
+        }
+
+        .new-btn{
+            background:linear-gradient(135deg,#2563eb,#0891b2);
+            color:white;
+            padding:12px 18px;
+            border-radius:10px;
+            font-size:13px;
+            font-weight:bold
+        }
+
+        .table-card{
+            background:white;
+            border:1px solid #e3e9f0;
+            border-radius:18px;
+            overflow:hidden;
+            box-shadow:0 8px 30px rgba(15,23,42,.04)
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse
+        }
+
+        th{
+            background:#f8fafc;
+            padding:16px;
+            text-align:left;
+            font-size:11px;
+            color:#64748b;
+            text-transform:uppercase
+        }
+
+        td{
+            padding:17px 16px;
+            border-top:1px solid #edf1f5;
+            font-size:13px;
+            color:#475569
+        }
+
+        .risk{
+            padding:6px 10px;
+            border-radius:20px;
+            font-size:11px;
+            font-weight:bold
+        }
+
+        .low{
+            background:#dcfce7;
+            color:#15803d
+        }
+
+        .moderate{
+            background:#fef3c7;
+            color:#b45309
+        }
+
+        .high{
+            background:#fee2e2;
+            color:#b91c1c
+        }
+
+        .empty{
+            background:white;
+            border:1px solid #e3e9f0;
+            border-radius:18px;
+            padding:60px 25px;
+            text-align:center
+        }
+
+        .empty-icon{
+            width:60px;
+            height:60px;
+            margin:auto auto 15px;
+            border-radius:17px;
+            background:#eff6ff;
+            color:#2563eb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:25px
+        }
+
+        .empty h2{
+            font-size:21px;
+            margin-bottom:8px
+        }
+
+        .empty p{
+            color:#64748b;
+            font-size:14px
+        }
+
+        .empty a{
+            display:inline-block;
+            margin-top:20px;
+            padding:12px 18px;
+            background:#2563eb;
+            color:white;
+            border-radius:10px;
+            font-size:13px;
+            font-weight:bold
+        }
+
+        .disclaimer{
+            margin-top:22px;
+            padding:14px;
+            background:#fffaf0;
+            border:1px solid #f4e4bd;
+            border-radius:10px;
+            color:#795b18;
+            font-size:11px;
+            line-height:1.6
+        }
+
+        @media(max-width:700px){
+
+            .container{
+                width:92%
+            }
+
+            .top{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:18px
+            }
+
+            .table-card{
+                overflow-x:auto
+            }
+
+            table{
+                min-width:700px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="nav">
+
+    <a href="{{ url_for('dashboard') }}" class="logo">
+
+        <div class="logo-icon">
+            ♥
+        </div>
+
+        HealthAI
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+    <div class="top">
+
+        <div>
+
+            <h1>Assessment History</h1>
+
+            <p class="subtitle">
+                Review your previous health assessments.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('assessment') }}" class="new-btn">
+            + New Assessment
+        </a>
+
+    </div>
+
+
+    {% if assessments %}
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Date</th>
+                    <th>Risk</th>
+                    <th>BMI</th>
+                    <th>Blood Pressure</th>
+                    <th>Glucose</th>
+                    <th>Cholesterol</th>
+                    <th>Confidence</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in assessments %}
+
+                <tr>
+
+                    <td>
+                        {{ item.created_at.strftime('%d %b %Y') }}
+                    </td>
+
+                    <td>
+
+                        <span class="risk
+                            {% if item.risk == 'Low' %}
+                            low
+                            {% elif item.risk == 'Moderate' %}
+                            moderate
+                            {% else %}
+                            high
+                            {% endif %}
+                        ">
+
+                            {{ item.risk }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        {{ item.bmi }}
+                    </td>
+
+                    <td>
+                        {{ item.systolic_bp }} mmHg
+                    </td>
+
+                    <td>
+                        {{ item.glucose }} mg/dL
+                    </td>
+
+                    <td>
+                        {{ item.cholesterol }} mg/dL
+                    </td>
+
+                    <td>
+                        {{ item.confidence or '--' }}%
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <div class="empty-icon">
+            ♥
+        </div>
+
+        <h2>No assessments yet</h2>
+
+        <p>
+            Complete your first health assessment to build
+            your personal health history.
+        </p>
+
+        <a href="{{ url_for('assessment') }}">
+            Start Assessment →
+        </a>
+
+    </div>
+
+    {% endif %}
+
+
+    <div class="disclaimer">
+
+        <strong>Note:</strong>
+        HealthAI is an educational preventive-health prototype.
+        Assessment results are not medical diagnoses.
+
+    </div>
+
+</main>
+
+</body>
+</html>

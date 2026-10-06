@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Result | HealthAI</title>
+
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+
+        body{
+            font-family:Arial,sans-serif;
+            background:#f5f8fc;
+            color:#172033
+        }
+
+        .nav{
+            height:70px;
+            background:white;
+            border-bottom:1px solid #e5eaf0;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:0 6%
+        }
+
+        .logo{
+            font-size:21px;
+            font-weight:800;
+            display:flex;
+            align-items:center;
+            gap:10px
+        }
+
+        .logo-icon{
+            width:38px;
+            height:38px;
+            border-radius:10px;
+            background:linear-gradient(135deg,#2563eb,#06b6d4);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center
+        }
+
+        .nav a{
+            color:#64748b;
+            text-decoration:none;
+            font-size:14px;
+            font-weight:600
+        }
+
+        .container{
+            width:90%;
+            max-width:950px;
+            margin:auto;
+            padding:45px 0
+        }
+
+        .heading{
+            text-align:center;
+            margin-bottom:25px
+        }
+
+        .heading h1{
+            font-size:32px;
+            margin-bottom:8px
+        }
+
+        .heading p{
+            color:#64748b;
+            font-size:14px
+        }
+
+        .main-card{
+            background:white;
+            border:1px solid #e2e8f0;
+            border-radius:20px;
+            padding:35px;
+            box-shadow:0 10px 35px rgba(15,23,42,.06)
+        }
+
+        .risk{
+            text-align:center;
+            padding-bottom:28px;
+            border-bottom:1px solid #edf1f5
+        }
+
+        .label{
+            font-size:12px;
+            color:#64748b;
+            text-transform:uppercase;
+            letter-spacing:1.5px;
+            font-weight:bold
+        }
+
+        .risk h2{
+            font-size:42px;
+            margin:10px 0
+        }
+
+        .low{color:#16a34a}
+        .moderate{color:#d97706}
+        .high{color:#dc2626}
+
+        .confidence{
+            color:#64748b;
+            font-size:13px
+        }
+
+        .confidence strong{
+            color:#2563eb
+        }
+
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:15px;
+            margin:28px 0
+        }
+
+        .stat{
+            background:#f8fafc;
+            border:1px solid #e5eaf0;
+            border-radius:13px;
+            padding:18px
+        }
+
+        .stat span{
+            color:#64748b;
+            font-size:12px
+        }
+
+        .stat strong{
+            display:block;
+            margin-top:7px;
+            font-size:22px
+        }
+
+        .recommendations h3{
+            font-size:19px;
+            margin-bottom:15px
+        }
+
+        .recommendation{
+            display:flex;
+            gap:12px;
+            padding:12px 0;
+            border-bottom:1px solid #edf1f5;
+            color:#475569;
+            font-size:14px;
+            line-height:1.5
+        }
+
+        .check{
+            width:28px;
+            height:28px;
+            border-radius:8px;
+            background:#eff6ff;
+            color:#2563eb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0
+        }
+
+        .actions{
+            display:flex;
+            justify-content:center;
+            gap:12px;
+            margin-top:28px
+        }
+
+        .btn{
+            padding:13px 19px;
+            border-radius:10px;
+            text-decoration:none;
+            font-size:13px;
+            font-weight:bold
+        }
+
+        .primary{
+            color:white;
+            background:linear-gradient(135deg,#2563eb,#0891b2)
+        }
+
+        .secondary{
+            background:#eef2f7;
+            color:#334155
+        }
+
+        .disclaimer{
+            margin-top:22px;
+            padding:14px;
+            background:#fffaf0;
+            border:1px solid #f4e4bd;
+            border-radius:10px;
+            color:#795b18;
+            font-size:11px;
+            line-height:1.6
+        }
+
+        @media(max-width:650px){
+            .container{width:92%}
+            .main-card{padding:22px}
+            .stats{grid-template-columns:1fr}
+            .actions{flex-direction:column}
+            .btn{text-align:center}
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="nav">
+
+    <a href="{{ url_for('dashboard') }}" class="logo">
+        <div class="logo-icon">♥</div>
+        HealthAI
+    </a>
+
+    <a href="{{ url_for('dashboard') }}">
+        Dashboard
+    </a>
+
+</nav>
+
+
+<main class="container">
+
+    <div class="heading">
+        <h1>Your Health Assessment Result</h1>
+        <p>AI-powered preventive health risk assessment</p>
+    </div>
+
+
+    <div class="main-card">
+
+        <div class="risk">
+
+            <div class="label">
+                Predicted Risk Level
+            </div>
+
+            <h2 class="
+                {% if risk == 'Low' %}
+                low
+                {% elif risk == 'Moderate' %}
+                moderate
+                {% else %}
+                high
+                {% endif %}
+            ">
+                {{ risk }} Risk
+            </h2>
+
+            {% if confidence %}
+            <div class="confidence">
+                AI confidence:
+                <strong>{{ confidence }}%</strong>
+            </div>
+            {% endif %}
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat">
+                <span>BMI</span>
+                <strong>{{ bmi }}</strong>
+            </div>
+
+            <div class="stat">
+                <span>Systolic BP</span>
+                <strong>{{ assessment.systolic_bp }} mmHg</strong>
+            </div>
+
+            <div class="stat">
+                <span>Glucose</span>
+                <strong>{{ assessment.glucose }} mg/dL</strong>
+            </div>
+
+            <div class="stat">
+                <span>Cholesterol</span>
+                <strong>{{ assessment.cholesterol }} mg/dL</strong>
+            </div>
+
+            <div class="stat">
+                <span>Weight</span>
+                <strong>{{ assessment.weight }} kg</strong>
+            </div>
+
+            <div class="stat">
+                <span>Sleep</span>
+                <strong>{{ assessment.sleep_hours }} hrs</strong>
+            </div>
+
+        </div>
+
+
+        <div class="recommendations">
+
+            <h3>
+                Personalized Recommendations
+            </h3>
+
+            {% for recommendation in recommendations %}
+
+            <div class="recommendation">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                <div>
+                    {{ recommendation }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="actions">
+
+            <a href="{{ url_for('assessment') }}" class="btn primary">
+                New Assessment
+            </a>
+
+            <a href="{{ url_for('history') }}" class="btn secondary">
+                View History
+            </a>
+
+            <a href="{{ url_for('dashboard') }}" class="btn secondary">
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="disclaimer">
+
+        <strong>Important:</strong>
+        HealthAI is an educational preventive-health prototype.
+        This result is not a medical diagnosis and should not replace
+        professional medical advice or treatment.
+
+    </div>
+
+</main>
+
+</body>
+</html>

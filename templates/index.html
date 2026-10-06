@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HealthAI | Preventive Healthcare Risk Assessment</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1769e0;
+            --primary-dark: #0d47a1;
+            --teal: #08a88a;
+            --text: #172033;
+            --muted: #667085;
+            --light: #f5f9ff;
+            --white: #ffffff;
+            --border: #e7edf5;
+            --shadow: 0 20px 60px rgba(30, 80, 140, 0.12);
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background: #f7faff;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            width: 100%;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(220, 230, 242, 0.7);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(135deg, #1769e0, #08a88a);
+            color: white;
+
+            font-size: 21px;
+            box-shadow: 0 8px 20px rgba(23, 105, 224, 0.25);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #536174;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .login-btn {
+            text-decoration: none;
+            color: var(--primary);
+            border: 1px solid #d6e4f8;
+            padding: 10px 18px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            background: white;
+        }
+
+        .signup-btn {
+            text-decoration: none;
+            color: white;
+            background: var(--primary);
+            padding: 11px 19px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+
+            box-shadow: 0 7px 18px rgba(23, 105, 224, 0.22);
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            position: relative;
+            min-height: 610px;
+
+            padding: 70px 6% 65px;
+
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 50px;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(circle at 15% 20%, rgba(54, 135, 255, 0.10), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(8, 168, 138, 0.10), transparent 28%),
+                #f7faff;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            background: #eaf3ff;
+            color: var(--primary);
+
+            border: 1px solid #d7e8ff;
+
+            padding: 8px 14px;
+            border-radius: 30px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 22px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #20b486;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: 1.04;
+            letter-spacing: -2.5px;
+            margin-bottom: 23px;
+            font-weight: 800;
+        }
+
+        .hero h1 .blue {
+            color: var(--primary);
+        }
+
+        .hero h1 .green {
+            color: var(--teal);
+        }
+
+        .hero-description {
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            background: linear-gradient(135deg, #1769e0, #1357bb);
+            color: white;
+
+            text-decoration: none;
+
+            padding: 15px 23px;
+            border-radius: 11px;
+
+            font-weight: 700;
+            font-size: 15px;
+
+            box-shadow: 0 12px 25px rgba(23, 105, 224, 0.24);
+
+            transition: 0.25s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(23, 105, 224, 0.30);
+        }
+
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            background: white;
+            color: #40516a;
+
+            border: 1px solid #dfe7f1;
+
+            text-decoration: none;
+
+            padding: 14px 21px;
+            border-radius: 11px;
+
+            font-weight: 700;
+            font-size: 15px;
+
+            transition: 0.25s;
+        }
+
+        .secondary-btn:hover {
+            border-color: #b9cee9;
+            background: #fbfdff;
+        }
+
+        .hero-note {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: #7b8798;
+            font-size: 13px;
+        }
+
+        .check {
+            width: 20px;
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: #e3f8f1;
+            color: #08a87f;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* ================= HEALTH CARD ================= */
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .health-card {
+            width: 100%;
+            max-width: 475px;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            border: 1px solid #e1eaf5;
+
+            border-radius: 24px;
+
+            padding: 26px;
+
+            box-shadow: var(--shadow);
+
+            position: relative;
+            z-index: 3;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 22px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .heart-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 14px;
+
+            background: #eaf3ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+        .card-title h3 {
+            font-size: 17px;
+            margin-bottom: 3px;
+        }
+
+        .card-title p {
+            color: #8995a5;
+            font-size: 12px;
+        }
+
+        .live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            color: #159a73;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: #20b486;
+            border-radius: 50%;
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, #f2f8ff, #eefaf7);
+
+            border: 1px solid #e1edf8;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .score-label {
+            color: #69778a;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .score {
+            font-size: 31px;
+            font-weight: 800;
+            color: #1769e0;
+        }
+
+        .score-status {
+            background: #e5f8f1;
+            color: #108966;
+
+            padding: 8px 13px;
+            border-radius: 30px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .health-bars {
+            display: grid;
+            gap: 13px;
+        }
+
+        .health-row {
+            display: grid;
+            grid-template-columns: 110px 1fr 42px;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 12px;
+        }
+
+        .health-name {
+            color: #5c697b;
+            font-weight: 600;
+        }
+
+        .bar {
+            height: 7px;
+            background: #edf1f6;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .blue-bar {
+            width: 86%;
+            background: #4b91ee;
+        }
+
+        .green-bar {
+            width: 74%;
+            background: #20b486;
+        }
+
+        .orange-bar {
+            width: 61%;
+            background: #f2a93b;
+        }
+
+        .purple-bar {
+            width: 80%;
+            background: #8b72df;
+        }
+
+        .health-value {
+            text-align: right;
+            color: #69778a;
+            font-weight: 700;
+        }
+
+        .recommendation {
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #f8fbff;
+
+            border: 1px solid #e6eef8;
+
+            border-radius: 13px;
+
+            display: flex;
+            gap: 12px;
+        }
+
+        .recommendation-icon {
+            font-size: 20px;
+        }
+
+        .recommendation strong {
+            font-size: 13px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .recommendation p {
+            color: #7a8798;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* Decorative circles */
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .circle-one {
+            width: 240px;
+            height: 240px;
+            background: rgba(23, 105, 224, 0.06);
+            top: -70px;
+            right: -80px;
+        }
+
+        .circle-two {
+            width: 160px;
+            height: 160px;
+            background: rgba(8, 168, 138, 0.06);
+            bottom: -50px;
+            left: -60px;
+        }
+
+        /* ================= TRUST BAR ================= */
+
+        .trust-section {
+            padding: 25px 6%;
+            background: white;
+            border-top: 1px solid #edf1f6;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .trust-content {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 10px 15px;
+        }
+
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 11px;
+
+            background: #f0f6ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .trust-item strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .trust-item span {
+            color: #8995a5;
+            font-size: 11px;
+        }
+
+        /* ================= FEATURES ================= */
+
+        .features-section {
+            padding: 75px 6%;
+            background: #f8fbff;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 45px;
+        }
+
+        .section-label {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .section-heading h2 {
+            font-size: 35px;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .feature-grid {
+            max-width: 1150px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+
+            border: 1px solid #e5edf6;
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            transition: 0.25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(35, 85, 140, 0.10);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+
+            background: #edf5ff;
+
+            margin-bottom: 20px;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: #eaf9f4;
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: #fff5e7;
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            margin-bottom: 9px;
+        }
+
+        .feature-card p {
+            color: #718096;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta-section {
+            padding: 65px 6%;
+            background: white;
+        }
+
+        .cta-box {
+            max-width: 1100px;
+            margin: auto;
+
+            background:
+                radial-gradient(circle at 85% 20%, rgba(255,255,255,0.15), transparent 25%),
+                linear-gradient(135deg, #1769e0, #0d58b8);
+
+            border-radius: 25px;
+
+            padding: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+
+            color: white;
+
+            box-shadow: 0 20px 45px rgba(23, 105, 224, 0.22);
+        }
+
+        .cta-box h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .cta-box p {
+            color: rgba(255,255,255,0.78);
+            font-size: 14px;
+        }
+
+        .cta-button {
+            flex-shrink: 0;
+
+            background: white;
+            color: #1769e0;
+
+            padding: 14px 23px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            padding: 25px 6%;
+            background: #101a2b;
+            color: #9aa7b8;
+        }
+
+        .footer-content {
+            max-width: 1150px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            font-size: 12px;
+        }
+
+        .footer-brand {
+            color: white;
+            font-weight: 700;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 55px;
+            }
+
+            .hero-content {
+                max-width: 700px;
+            }
+
+            .hero-visual {
+                margin-top: 10px;
+            }
+
+            .trust-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                max-width: 550px;
+            }
+
+            .cta-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 14px 5%;
+            }
+
+            .login-btn {
+                display: none;
+            }
+
+            .hero {
+                padding: 45px 5%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                justify-content: center;
+            }
+
+            .health-card {
+                padding: 20px;
+            }
+
+            .trust-content {
+                grid-template-columns: 1fr;
+            }
+
+            .features-section {
+                padding: 55px 5%;
+            }
+
+            .section-heading h2 {
+                font-size: 28px;
+            }
+
+            .cta-section {
+                padding: 45px 5%;
+            }
+
+            .cta-box {
+                padding: 30px 25px;
+            }
+
+            .cta-box h2 {
+                font-size: 25px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <div class="logo-icon">❤</div>
+            Health<span>AI</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#about">About</a>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/login" class="login-btn">Login</a>
+            <a href="/register" class="signup-btn">Get Started</a>
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="circle circle-one"></div>
+        <div class="circle circle-two"></div>
+
+        <div class="hero-content">
+
+            <div class="badge">
+                <span class="badge-dot"></span>
+                AI-Powered Preventive Healthcare
+            </div>
+
+            <h1>
+                Understand your
+                <span class="blue">health.</span>
+                <br>
+                Improve your
+                <span class="green">future.</span>
+            </h1>
+
+            <p class="hero-description">
+                Get a personalized preventive health risk assessment
+                using important health and lifestyle factors — and
+                discover practical recommendations to help you make
+                healthier decisions.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/register" class="primary-btn">
+                    Start Health Assessment
+                    <span>→</span>
+                </a>
+
+                <a href="/login" class="secondary-btn">
+                    Already have an account?
+                </a>
+
+            </div>
+
+            <div class="hero-note">
+                <span class="check">✓</span>
+                Educational preventive assessment · Not a medical diagnosis
+            </div>
+
+        </div>
+
+
+        <!-- ================= HEALTH DASHBOARD CARD ================= -->
+
+        <div class="hero-visual">
+
+            <div class="health-card">
+
+                <div class="card-top">
+
+                    <div class="card-title">
+
+                        <div class="heart-icon">
+                            ❤️
+                        </div>
+
+                        <div>
+                            <h3>Health Overview</h3>
+                            <p>Personalized assessment</p>
+                        </div>
+
+                    </div>
+
+                    <div class="live">
+                        <span class="live-dot"></span>
+                        AI Analysis
+                    </div>
+
+                </div>
+
+
+                <div class="score-box">
+
+                    <div>
+                        <div class="score-label">
+                            Overall Health Score
+                        </div>
+
+                        <div class="score">
+                            82<span style="font-size:16px;">/100</span>
+                        </div>
+                    </div>
+
+                    <div class="score-status">
+                        Low Risk
+                    </div>
+
+                </div>
+
+
+                <div class="health-bars">
+
+                    <div class="health-row">
+
+                        <span class="health-name">
+                            BMI
+                        </span>
+
+                        <div class="bar">
+                            <div class="bar-fill blue-bar"></div>
+                        </div>
+
+                        <span class="health-value">
+                            Good
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-row">
+
+                        <span class="health-name">
+                            Lifestyle
+                        </span>
+
+                        <div class="bar">
+                            <div class="bar-fill green-bar"></div>
+                        </div>
+
+                        <span class="health-value">
+                            Good
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-row">
+
+                        <span class="health-name">
+                            Blood Pressure
+                        </span>
+
+                        <div class="bar">
+                            <div class="bar-fill orange-bar"></div>
+                        </div>
+
+                        <span class="health-value">
+                            Fair
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-row">
+
+                        <span class="health-name">
+                            Sleep
+                        </span>
+
+                        <div class="bar">
+                            <div class="bar-fill purple-bar"></div>
+                        </div>
+
+                        <span class="health-value">
+                            Good
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="recommendation">
+
+                    <div class="recommendation-icon">
+                        💡
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Personalized Recommendation
+                        </strong>
+
+                        <p>
+                            Maintain regular physical activity,
+                            balanced nutrition and consistent sleep
+                            to support long-term health.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TRUST / STATS ================= -->
+
+    <section class="trust-section">
+
+        <div class="trust-content">
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    🤖
+                </div>
+
+                <div>
+                    <strong>AI-Based Analysis</strong>
+                    <span>Machine-learning risk assessment</span>
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    📊
+                </div>
+
+                <div>
+                    <strong>Multiple Factors</strong>
+                    <span>Health + lifestyle information</span>
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    💡
+                </div>
+
+                <div>
+                    <strong>Personalized</strong>
+                    <span>Recommendations for your profile</span>
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    🔒
+                </div>
+
+                <div>
+                    <strong>Private Account</strong>
+                    <span>Your assessment history</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features-section" id="features">
+
+        <div class="section-heading">
+
+            <div class="section-label">
+                What you get
+            </div>
+
+            <h2>
+                A smarter way to think about prevention
+            </h2>
+
+            <p>
+                HealthAI combines health measurements and lifestyle
+                information to provide an easy-to-understand
+                preventive health assessment.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🧠
+                </div>
+
+                <h3>
+                    AI Risk Assessment
+                </h3>
+
+                <p>
+                    Analyze multiple health parameters using a
+                    machine-learning model to estimate preventive
+                    health risk.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📈
+                </div>
+
+                <h3>
+                    Track Your Health
+                </h3>
+
+                <p>
+                    Keep your previous assessments and observe how
+                    your health-risk profile changes over time.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🌱
+                </div>
+
+                <h3>
+                    Personalized Recommendations
+                </h3>
+
+                <p>
+                    Receive practical lifestyle recommendations
+                    based on the factors identified in your assessment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta-section" id="how-it-works">
+
+        <div class="cta-box">
+
+            <div>
+
+                <h2>
+                    Take the first step toward prevention.
+                </h2>
+
+                <p>
+                    Complete a simple health assessment and
+                    understand your preventive health profile.
+                </p>
+
+            </div>
+
+            <a href="/register" class="cta-button">
+                Begin Assessment →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="about">
+
+        <div class="footer-content">
+
+            <div>
+                <span class="footer-brand">HealthAI</span>
+                &nbsp; · &nbsp;
+                Preventive Healthcare Risk Assessment
+            </div>
+
+            <div>
+                © 2026 HealthAI Prototype
+            </div>
+
+        </div>
+
+    </footer>
+
+
+</body>
+</html>

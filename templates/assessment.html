@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Health Assessment | HealthAI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f6f9fc;
+            color: #172033;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e7edf4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back:hover {
+            color: #2563eb;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+            padding: 42px 0 70px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 9px;
+            color: #111827;
+        }
+
+        .heading p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-card {
+            background: white;
+            border: 1px solid #e3e9f0;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.05);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section:last-of-type {
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #edf1f5;
+        }
+
+        .section-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .section-title h2 {
+            font-size: 17px;
+            color: #172033;
+        }
+
+        .section-title p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-left: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .hint {
+            font-size: 11px;
+            font-weight: 400;
+            color: #94a3b8;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 46px;
+            border: 1px solid #dbe3ec;
+            border-radius: 10px;
+            padding: 0 13px;
+            background: #fbfdff;
+            color: #172033;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #60a5fa;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+        }
+
+        /* ================= INFO ================= */
+
+        .info {
+            background: #f0f9ff;
+            border: 1px solid #d7effb;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 25px;
+            color: #155e75;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* ================= SUBMIT ================= */
+
+        .submit-area {
+            border-top: 1px solid #edf1f5;
+            margin-top: 28px;
+            padding-top: 25px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            border: none;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, #2563eb, #0891b2);
+            padding: 15px 35px;
+            border-radius: 11px;
+            font-size: 15px;
+            font-weight: 800;
+            box-shadow: 0 9px 22px rgba(37, 99, 235, 0.20);
+            transition: 0.25s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 13px 27px rgba(37, 99, 235, 0.27);
+        }
+
+        .submit-note {
+            margin-top: 12px;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* ================= FLASH ================= */
+
+        .flash {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .flash.error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+
+        .flash.success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        /* ================= DISCLAIMER ================= */
+
+        .disclaimer {
+            margin-top: 25px;
+            padding: 15px 17px;
+            border-radius: 12px;
+            background: #fffaf0;
+            border: 1px solid #f4e4bd;
+            color: #795b18;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .container {
+                width: 92%;
+                padding-top: 30px;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .section-title p {
+                display: none;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <a href="{{ url_for('dashboard') }}" class="logo">
+
+        <div class="logo-icon">
+            ♥
+        </div>
+
+        HealthAI
+
+    </a>
+
+    <a href="{{ url_for('dashboard') }}" class="back">
+        ← Back to Dashboard
+    </a>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+    <div class="heading">
+
+        <h1>Health Risk Assessment</h1>
+
+        <p>
+            Enter your health and lifestyle information to generate
+            an AI-powered preventive risk assessment.
+        </p>
+
+    </div>
+
+
+    <!-- FLASH MESSAGES -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="form-card">
+
+        <div class="info">
+
+            <strong>How it works:</strong>
+            Your information is processed by the HealthAI machine-learning
+            prototype to estimate a preventive health risk category.
+            The system also generates general lifestyle recommendations.
+
+        </div>
+
+
+        <!-- IMPORTANT:
+             These names MUST match app.py
+        -->
+
+        <form method="POST"
+              action="{{ url_for('assessment') }}">
+
+
+            <!-- ================= BASIC INFORMATION ================= -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <div class="section-number">1</div>
+
+                    <h2>Basic Information</h2>
+
+                    <p>Personal measurements</p>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+
+                        <label for="age">
+                            Age
+                        </label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            name="age"
+                            min="1"
+                            max="120"
+                            placeholder="e.g. 25"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="height">
+                            Height
+                            <span class="hint">(cm)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="height"
+                            name="height"
+                            min="50"
+                            max="250"
+                            step="0.1"
+                            placeholder="e.g. 170"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="weight">
+                            Weight
+                            <span class="hint">(kg)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="weight"
+                            name="weight"
+                            min="10"
+                            max="300"
+                            step="0.1"
+                            placeholder="e.g. 65"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= HEALTH MEASUREMENTS ================= -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <div class="section-number">2</div>
+
+                    <h2>Health Measurements</h2>
+
+                    <p>Current readings</p>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+
+                        <label for="systolic_bp">
+                            Systolic Blood Pressure
+                            <span class="hint">(mmHg)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="systolic_bp"
+                            name="systolic_bp"
+                            min="60"
+                            max="250"
+                            placeholder="e.g. 120"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="glucose">
+                            Blood Glucose
+                            <span class="hint">(mg/dL)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="glucose"
+                            name="glucose"
+                            min="40"
+                            max="500"
+                            step="0.1"
+                            placeholder="e.g. 95"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="cholesterol">
+                            Total Cholesterol
+                            <span class="hint">(mg/dL)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="cholesterol"
+                            name="cholesterol"
+                            min="50"
+                            max="500"
+                            step="0.1"
+                            placeholder="e.g. 180"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= LIFESTYLE ================= -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <div class="section-number">3</div>
+
+                    <h2>Lifestyle Factors</h2>
+
+                    <p>Daily habits</p>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+
+                        <label for="smoking">
+                            Smoking / Tobacco
+                        </label>
+
+                        <select id="smoking" name="smoking" required>
+
+                            <option value="" selected disabled>
+                                Select an option
+                            </option>
+
+                            <option value="0">
+                                No
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="physical_activity">
+                            Regular Physical Activity
+                        </label>
+
+                        <select
+                            id="physical_activity"
+                            name="physical_activity"
+                            required
+                        >
+
+                            <option value="" selected disabled>
+                                Select an option
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                            <option value="0">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="family_history">
+                            Relevant Family Health History
+                        </label>
+
+                        <select
+                            id="family_history"
+                            name="family_history"
+                            required
+                        >
+
+                            <option value="" selected disabled>
+                                Select an option
+                            </option>
+
+                            <option value="0">
+                                No
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="sleep_hours">
+                            Average Sleep
+                            <span class="hint">(hours/night)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="sleep_hours"
+                            name="sleep_hours"
+                            min="0"
+                            max="24"
+                            step="0.5"
+                            placeholder="e.g. 7"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SUBMIT ================= -->
+
+            <div class="submit-area">
+
+                <button type="submit" class="submit-btn">
+
+                    Analyze My Health Risk →
+
+                </button>
+
+                <div class="submit-note">
+
+                    Your assessment will be securely associated
+                    with your HealthAI account.
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= DISCLAIMER ================= -->
+
+    <div class="disclaimer">
+
+        <strong>Important:</strong>
+        HealthAI is an educational preventive-health prototype.
+        The result is not a medical diagnosis and should not replace
+        professional medical advice, diagnosis, or treatment.
+
+    </div>
+
+</main>
+
+</body>
+</html>

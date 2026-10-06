@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | HealthAI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1769e0;
+            --primary-dark: #1357bb;
+            --teal: #08a88a;
+            --text: #172033;
+            --muted: #718096;
+            --border: #dfe7f1;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 8% 15%,
+                    rgba(23, 105, 224, 0.11),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 85%,
+                    rgba(8, 168, 138, 0.10),
+                    transparent 28%
+                ),
+                #f6f9fd;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 75px;
+
+            padding: 0 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(255,255,255,0.94);
+
+            border-bottom: 1px solid #e7edf5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1769e0,
+                    #08a88a
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+
+            box-shadow:
+                0 7px 18px rgba(23,105,224,0.20);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .home-link {
+            text-decoration: none;
+
+            color: #526176;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .home-link:hover {
+            color: var(--primary);
+        }
+
+        /* ================= MAIN ================= */
+
+        .page {
+            min-height: calc(100vh - 75px);
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 55px 30px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 75px;
+
+            align-items: center;
+        }
+
+        /* ================= LEFT ================= */
+
+        .intro {
+            padding-right: 15px;
+        }
+
+        .badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 14px;
+
+            border-radius: 30px;
+
+            background: #eaf3ff;
+
+            color: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            margin-bottom: 20px;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #20b486;
+        }
+
+        .intro h1 {
+            font-size: 50px;
+
+            line-height: 1.06;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 20px;
+        }
+
+        .intro h1 span {
+            color: var(--primary);
+        }
+
+        .intro p {
+            max-width: 500px;
+
+            color: var(--muted);
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+        /* ================= INFO CARDS ================= */
+
+        .info-list {
+            margin-top: 32px;
+
+            display: grid;
+
+            gap: 14px;
+        }
+
+        .info-card {
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 13px 15px;
+
+            background: rgba(255,255,255,0.75);
+
+            border: 1px solid #e5ecf5;
+
+            border-radius: 13px;
+
+            max-width: 430px;
+        }
+
+        .info-icon {
+            width: 39px;
+            height: 39px;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #edf5ff;
+
+            font-size: 18px;
+
+            flex-shrink: 0;
+        }
+
+        .info-card:nth-child(2)
+        .info-icon {
+            background: #eaf9f4;
+        }
+
+        .info-card:nth-child(3)
+        .info-icon {
+            background: #fff5e7;
+        }
+
+        .info-card strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 3px;
+        }
+
+        .info-card span {
+            color: #8995a5;
+
+            font-size: 11px;
+        }
+
+        /* ================= LOGIN CARD ================= */
+
+        .login-card {
+            background: white;
+
+            border: 1px solid #e1e9f3;
+
+            border-radius: 23px;
+
+            padding: 36px;
+
+            box-shadow:
+                0 22px 60px
+                rgba(30,80,140,0.12);
+        }
+
+        .login-header {
+            margin-bottom: 26px;
+        }
+
+        .login-header h2 {
+            font-size: 28px;
+
+            margin-bottom: 7px;
+        }
+
+        .login-header p {
+            color: #8995a5;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        /* ================= FLASH ================= */
+
+        .flash {
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            background: #fff2f0;
+
+            color: #c0392b;
+
+            font-size: 12px;
+
+            margin-bottom: 17px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #344054;
+
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+
+            height: 49px;
+
+            padding: 0 45px 0 14px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: #fbfcfe;
+
+            color: #172033;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(23,105,224,0.08);
+        }
+
+        .input-icon {
+            position: absolute;
+
+            right: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #98a2b3;
+
+            font-size: 17px;
+
+            pointer-events: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 13px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            color: #7c8797;
+
+            font-size: 16px;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* ================= OPTIONS ================= */
+
+        .options {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 22px;
+
+            font-size: 12px;
+        }
+
+        .remember {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #69778a;
+        }
+
+        .remember input {
+            width: 15px;
+            height: 15px;
+
+            padding: 0;
+
+            accent-color: var(--primary);
+        }
+
+        .forgot {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .login-btn {
+            width: 100%;
+
+            height: 51px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-dark)
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 23px
+                rgba(23,105,224,0.23);
+
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 14px 27px
+                rgba(23,105,224,0.29);
+        }
+
+        /* ================= REGISTER ================= */
+
+        .register-text {
+            text-align: center;
+
+            margin-top: 21px;
+
+            color: #7b8798;
+
+            font-size: 13px;
+        }
+
+        .register-text a {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-weight: 800;
+        }
+
+        /* ================= SECURITY ================= */
+
+        .security {
+            margin-top: 22px;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            background: #f7f9fc;
+
+            border: 1px solid #edf1f5;
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: flex-start;
+        }
+
+        .security-icon {
+            font-size: 16px;
+        }
+
+        .security p {
+            color: #8995a5;
+
+            font-size: 10px;
+
+            line-height: 1.55;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer-note {
+            text-align: center;
+
+            color: #9aa5b4;
+
+            font-size: 10px;
+
+            margin-top: 20px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .page {
+                grid-template-columns: 1fr;
+
+                gap: 35px;
+
+                padding-top: 40px;
+
+                max-width: 600px;
+            }
+
+            .intro {
+                text-align: center;
+
+                padding: 0;
+            }
+
+            .intro p {
+                margin: auto;
+            }
+
+            .info-list {
+                max-width: 430px;
+
+                margin: 28px auto 0;
+
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .page {
+                padding:
+                    30px 18px;
+            }
+
+            .intro h1 {
+                font-size: 38px;
+
+                letter-spacing: -1.2px;
+            }
+
+            .login-card {
+                padding: 26px 20px;
+            }
+
+            .login-header h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ❤
+            </div>
+
+            Health<span>AI</span>
+
+        </div>
+
+        <a
+            href="/"
+            class="home-link"
+        >
+            ← Back to Home
+        </a>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="page">
+
+
+        <!-- ================= INTRO ================= -->
+
+        <section class="intro">
+
+            <div class="badge">
+
+                <span class="badge-dot"></span>
+
+                WELCOME BACK
+
+            </div>
+
+
+            <h1>
+
+                Your health
+                <span>journey</span>
+                continues.
+
+            </h1>
+
+
+            <p>
+
+                Sign in to access your personalized health
+                dashboard, previous assessments and preventive
+                health recommendations.
+
+            </p>
+
+
+            <div class="info-list">
+
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Your Health Dashboard
+                        </strong>
+
+                        <span>
+                            View your latest health assessment
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        🧠
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            AI-Powered Insights
+                        </strong>
+
+                        <span>
+                            Understand your preventive risk profile
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        💡
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Personalized Recommendations
+                        </strong>
+
+                        <span>
+                            Practical suggestions based on your assessment
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= LOGIN FORM ================= -->
+
+        <section class="login-card">
+
+
+            <div class="login-header">
+
+                <h2>
+                    Welcome back 👋
+                </h2>
+
+                <p>
+                    Enter your account details to continue.
+                </p>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="flash">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                method="POST"
+                action="/login"
+            >
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Show or hide password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            name="remember"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot"
+                        onclick="forgotPassword(event)"
+                    >
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN -->
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    Sign In →
+                </button>
+
+
+            </form>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-text">
+
+                Don't have an account?
+
+                <a href="/register">
+                    Create one
+                </a>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="security">
+
+                <div class="security-icon">
+                    🔒
+                </div>
+
+                <p>
+                    Your password is securely hashed before being
+                    stored. HealthAI is an educational preventive
+                    healthcare prototype and does not provide
+                    medical diagnosis.
+                </p>
+
+            </div>
+
+
+            <div class="footer-note">
+
+                © 2026 HealthAI · Preventive Healthcare Platform
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.querySelector(".password-toggle");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.textContent = "🙈";
+
+            } else {
+
+                password.type = "password";
+
+                button.textContent = "👁";
+
+            }
+        }
+
+
+        function forgotPassword(event) {
+
+            event.preventDefault();
+
+            alert(
+                "Password recovery will be added in a future version."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
